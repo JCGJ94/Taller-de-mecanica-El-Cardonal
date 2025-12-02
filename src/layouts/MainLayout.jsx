@@ -1,27 +1,34 @@
 import React from 'react'
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import ScrollToTop from '@/components/layout/ScrollToTop.jsx'
+import Navbar from '@/components/layout/Navbar.jsx'
+import Footer from '@/components/layout/Footer.jsx'
+import ScrollTopButton from '@/components/ui/ScrollTopButton.jsx'
+import { useSectionObserver } from '@/hooks/useSectionObserver'
 import './MainLayout.css'
 
 function MainLayout() {
+  const activeSection = useSectionObserver([
+    'hero',
+    'services',
+    'process',
+    'budget',
+    'contact'
+  ])
+
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <h1 className="app-logo">Mi Proyecto</h1>
-        <nav className="app-nav">
-          <NavLink to="/" end>
-            Inicio
-          </NavLink>
-          <NavLink to="/about">Sobre mí</NavLink>
-        </nav>
-      </header>
+      <ScrollToTop>
+        <Navbar activeSection={activeSection} />
 
-      <main className="app-main">
-        <Outlet />
-      </main>
+        <main className="app-main">
+          <Outlet />
+        </main>
 
-      <footer className="app-footer">
-        <small>© {new Date().getFullYear()} · Mi Proyecto</small>
-      </footer>
+        <Footer />
+
+        <ScrollTopButton />
+      </ScrollToTop>
     </div>
   )
 }
