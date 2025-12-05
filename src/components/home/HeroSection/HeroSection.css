@@ -1,0 +1,127 @@
+/* HERO — Full width background */
+.home-hero {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 90px);
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  background: #020617;
+  border-radius: 0;
+}
+
+.home-hero-inner {
+  z-index: 2;
+  max-width: 1040px;
+  width: 100%;
+  border-radius: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+}
+
+.home-hero-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.hero-title-block span {
+  display: block;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero-title-block h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff, #f0f0f0, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+}
+
+.home-hero p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 42rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.home-hero-badges {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.home-hero-badges li {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+@media (max-width: 640px) {
+  .home-hero-inner {
+    gap: 1.5rem;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .hero-title-block span {
+    font-size: 0.95rem;
+  }
+
+  .hero-title-block h1 {
+    font-size: 2.2rem;
+  }
+
+  .home-hero p {
+    font-size: 0.95rem;
+  }
+
+  .home-hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .home-hero-actions a {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* Specific hover for Hero secondary button to be Blue */
+.home-hero .btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.8);
+  border-color: #3b82f6;
+  color: #eff6ff;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}

@@ -1,0 +1,154 @@
+/* Entrance animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Section styling */
+.process-section {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.process-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.steps li {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  font-size: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background glow effect on hover */
+.steps li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.steps li:hover::before {
+  opacity: 1;
+}
+
+/* Staggered animation delays */
+.steps li:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.steps li:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.steps li:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.steps li:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Icon styling */
+.step-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.steps li:hover .step-icon {
+  transform: rotate(10deg) scale(1.15);
+}
+
+/* Content wrapper */
+.step-content {
+  flex: 1;
+}
+
+.steps strong {
+  color: #ffffff;
+  font-size: 1.1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.steps span {
+  display: block;
+  color: #cbd5e1;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .process-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .steps li {
+    padding: 1rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .step-icon {
+    font-size: 2rem;
+  }
+
+  .steps strong {
+    font-size: 1rem;
+  }
+}
