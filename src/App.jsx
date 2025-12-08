@@ -1,8 +1,13 @@
-
 import { AppRouter } from './router.jsx'
+import Analytics from './components/Analytics/Analytics'
 
 function App() {
-  return <AppRouter />
+  return (
+    <>
+      <Analytics />
+      <AppRouter />
+    </>
+  )
 }
 
 export default App

@@ -14,7 +14,7 @@ function BudgetSection() {
 
       <BudgetForm />
 
-      <ScrollNextButton targetId="contact" />
+      <ScrollNextButton targetId="location" />
     </section>
   )
 }
