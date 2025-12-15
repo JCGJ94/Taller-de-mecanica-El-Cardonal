@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import emailjs from '@emailjs/browser'
 import Toast from '@/components/ui/Toast/Toast.jsx'
+import { trackEvent } from '@/components/Analytics/Analytics.jsx'
 import './BudgetForm.css'
 import {
   EMAILJS_SERVICE_ID,
@@ -25,7 +26,6 @@ function BudgetForm() {
   const [status, setStatus] = useState({ loading: false, success: null, message: '' })
   const [showToast, setShowToast] = useState(false)
 
-  // Initialize EmailJS
   useEffect(() => {
     if (EMAILJS_PUBLIC_KEY) {
       emailjs.init(EMAILJS_PUBLIC_KEY)
@@ -43,16 +43,11 @@ function BudgetForm() {
       newErrors.phone = 'Introduce un teléfono válido.'
     }
     if (!formData.email.trim()) newErrors.email = 'El email es obligatorio.'
-    if (
-      formData.email &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
-    ) {
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       newErrors.email = 'Introduce un email válido.'
     }
     if (!formData.service.trim()) newErrors.service = 'Indica el servicio.'
-    if (!formData.message.trim())
-      newErrors.message = 'Cuéntanos qué le ocurre al vehículo.'
-
+    if (!formData.message.trim()) newErrors.message = 'Cuéntanos qué le ocurre al vehículo.'
     return newErrors
   }
 
@@ -65,16 +60,13 @@ function BudgetForm() {
     e.preventDefault()
     const validationErrors = validate()
     setErrors(validationErrors)
-
     if (Object.keys(validationErrors).length > 0) return
 
-    // Check if EmailJS is configured
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       setStatus({
         loading: false,
         success: false,
-        message:
-          'Error de configuración. Por favor, contacta con nosotros por WhatsApp o email.'
+        message: 'Error de configuración. Por favor, contacta con nosotros por WhatsApp o email.'
       })
       setShowToast(true)
       console.error('EmailJS configuration is incomplete. Please check your .env file.')
@@ -100,6 +92,16 @@ function BudgetForm() {
         EMAILJS_PUBLIC_KEY
       )
 
+      // ✅ ÚNICA FUENTE: empujar evento a GTM
+      // En GTM: trigger "Custom Event = form_submission"
+      // y ahí disparas GA4 + Ads conversion.
+      trackEvent('form_submission', {
+        form_type: 'budget',
+        service: formData.service,
+        value: 50,
+        currency: 'EUR'
+      })
+
       setStatus({
         loading: false,
         success: true,
@@ -113,8 +115,7 @@ function BudgetForm() {
       setStatus({
         loading: false,
         success: false,
-        message:
-          'Ha ocurrido un error al enviar el formulario. Puedes escribirnos por WhatsApp o email.'
+        message: 'Ha ocurrido un error al enviar el formulario. Puedes escribirnos por WhatsApp o email.'
       })
       setShowToast(true)
     }
