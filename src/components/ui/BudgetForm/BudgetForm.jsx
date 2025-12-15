@@ -80,14 +80,14 @@ function BudgetForm() {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name: formData.name,
-          from_phone: formData.phone,
-          from_email: formData.email,
-          vehicle_brand: formData.brand,
-          vehicle_model: formData.model,
-          vehicle_plate: formData.plate,
-          requested_service: formData.service,
-          message: formData.message
+          nombre: formData.name,
+          teléfono: formData.phone,
+          email: formData.email,
+          marca: formData.brand,
+          modelo: formData.model,
+          matrícula: formData.plate,
+          servicio: formData.service,
+          mensaje: formData.message
         },
         EMAILJS_PUBLIC_KEY
       )
