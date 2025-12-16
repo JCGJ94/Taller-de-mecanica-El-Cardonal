@@ -58,6 +58,22 @@ function BudgetForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // 🔧 FIX: Obtener valores directamente del formulario
+    const form = e.currentTarget
+    const currentFormData = {
+      name: form.name.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      brand: form.brand.value,
+      model: form.model.value,
+      plate: form.plate.value,
+      service: form.service.value,
+      message: form.message.value
+    }
+
+    console.log('🔧 Datos del formulario (directos):', JSON.stringify(currentFormData, null, 2))
+
     const validationErrors = validate()
     setErrors(validationErrors)
     if (Object.keys(validationErrors).length > 0) return
@@ -76,19 +92,27 @@ function BudgetForm() {
     setStatus({ loading: true, success: null, message: '' })
 
     try {
+      const templateParams = {
+        nombre: currentFormData.name,
+        telefono: currentFormData.phone,
+        email: currentFormData.email,
+        marca: currentFormData.brand,
+        modelo: currentFormData.model,
+        matricula: currentFormData.plate,
+        servicio: currentFormData.service,
+        mensaje: currentFormData.message
+      }
+
+      // 🔍 DEBUG: Ver qué datos vamos a enviar a EmailJS
+      console.log('📧 Datos a enviar a EmailJS:', JSON.stringify(templateParams, null, 2))
+      console.log('🔑 Service ID:', EMAILJS_SERVICE_ID)
+      console.log('📄 Template ID:', EMAILJS_TEMPLATE_ID)
+      console.log('🔐 Public Key:', EMAILJS_PUBLIC_KEY ? 'Configurado ✅' : 'NO configurado ❌')
+
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        {
-          nombre: formData.name,
-          teléfono: formData.phone,
-          email: formData.email,
-          marca: formData.brand,
-          modelo: formData.model,
-          matrícula: formData.plate,
-          servicio: formData.service,
-          mensaje: formData.message
-        },
+        templateParams,
         EMAILJS_PUBLIC_KEY
       )
 
@@ -97,7 +121,7 @@ function BudgetForm() {
       // y ahí disparas GA4 + Ads conversion.
       trackEvent('form_submission', {
         form_type: 'budget',
-        service: formData.service,
+        service: currentFormData.service,
         value: 50,
         currency: 'EUR'
       })
