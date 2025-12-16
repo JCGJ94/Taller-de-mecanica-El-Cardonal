@@ -78,7 +78,13 @@ export const trackLeadGeneration = (leadType) => {
   const conversionId = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_ID
   const conversionLabel = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL
   if (conversionId && conversionLabel) {
-    trackConversion(conversionId, conversionLabel, 1.0, 'EUR')
+    trackConversion('ads_conversion', {
+      send_to: `${conversionId}/${conversionLabel}`,
+      conversion_id: conversionId,
+      conversion_label: conversionLabel,
+      value: 1.0,
+      currency: 'EUR',
+    })
   }
 }
 

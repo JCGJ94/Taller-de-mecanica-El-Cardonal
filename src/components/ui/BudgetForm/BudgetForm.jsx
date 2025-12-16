@@ -72,8 +72,6 @@ function BudgetForm() {
       message: form.message.value
     }
 
-    console.log('🔧 Datos del formulario (directos):', JSON.stringify(currentFormData, null, 2))
-
     const validationErrors = validate()
     setErrors(validationErrors)
     if (Object.keys(validationErrors).length > 0) return
@@ -102,12 +100,6 @@ function BudgetForm() {
         servicio: currentFormData.service,
         mensaje: currentFormData.message
       }
-
-      // 🔍 DEBUG: Ver qué datos vamos a enviar a EmailJS
-      console.log('📧 Datos a enviar a EmailJS:', JSON.stringify(templateParams, null, 2))
-      console.log('🔑 Service ID:', EMAILJS_SERVICE_ID)
-      console.log('📄 Template ID:', EMAILJS_TEMPLATE_ID)
-      console.log('🔐 Public Key:', EMAILJS_PUBLIC_KEY ? 'Configurado ✅' : 'NO configurado ❌')
 
       await emailjs.send(
         EMAILJS_SERVICE_ID,
