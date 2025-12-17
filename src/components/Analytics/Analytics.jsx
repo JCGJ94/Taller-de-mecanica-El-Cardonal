@@ -53,7 +53,7 @@ const Analytics = () => {
       page_path: location.pathname + location.search,
       page_title: document.title,
     })
-  }, [location])
+  }, [ location.pathname + location.search])
 
   return null
 }

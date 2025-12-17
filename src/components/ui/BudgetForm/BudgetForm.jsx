@@ -16,6 +16,7 @@ const initialForm = {
   brand: '',
   model: '',
   plate: '',
+  year: '',
   service: '',
   message: ''
 }
@@ -68,6 +69,7 @@ function BudgetForm() {
       brand: form.brand.value,
       model: form.model.value,
       plate: form.plate.value,
+      year: form.year.value,
       service: form.service.value,
       message: form.message.value
     }
@@ -97,6 +99,7 @@ function BudgetForm() {
         marca: currentFormData.brand,
         modelo: currentFormData.model,
         matricula: currentFormData.plate,
+        ano: currentFormData.year,
         servicio: currentFormData.service,
         mensaje: currentFormData.message
       }
@@ -210,6 +213,17 @@ function BudgetForm() {
             value={formData.plate}
             onChange={handleChange}
             placeholder="Ej. 1234 ABC"
+          />
+        </label>
+
+        <label>
+          Año
+          <input
+            type="text"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            placeholder="Año de matriculación del vehículo"
           />
         </label>
       </div>

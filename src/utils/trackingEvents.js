@@ -5,6 +5,7 @@
 
 import { trackEvent, trackConversion } from '@/components/Analytics/Analytics.jsx'
 
+
 // Eventos de servicio
 export const trackServiceClick = (serviceId, serviceName) => {
   trackEvent('service_click', {
@@ -73,6 +74,9 @@ export const trackLeadGeneration = (leadType) => {
   trackEvent('lead', {
     lead_type: leadType, // 'budget_request', 'contact_form', etc.
   })
+  trackConversion("Form Submission Presupuesto", {
+    lead_type: leadType,
+  });
 
   // Rastrear conversión en Google Ads
   const conversionId = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_ID
