@@ -1,6 +1,5 @@
 {
-    // Configuración para SPA en Vercel
-    "cleanUrls": true,
+    "cleanUrls": false,
     "headers": [
         {
             "source": "/assets/(.*)",

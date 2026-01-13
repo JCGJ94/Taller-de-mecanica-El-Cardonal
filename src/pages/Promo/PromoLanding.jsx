@@ -9,7 +9,6 @@ import { PROMOTIONS } from '@/utils/promotionsData'
 
 import { usePageTracking } from '@/hooks/usePageTracking'
 import './PromoLanding.css'
-import { FaDirections } from 'react-icons/fa'
 
 function buildWhatsAppLink({ whatsapp, whatsappPrefill }) {
   const num = String(whatsapp || '').replace(/\D/g, '')
