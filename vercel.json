@@ -1,4 +1,5 @@
 {
+    // Configuración para SPA en Vercel
     "cleanUrls": true,
     "headers": [
         {
