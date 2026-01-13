@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import HeroCarousel from '@/components/ui/HeroCarousel/HeroCarousel.jsx'
 import ScrollNextButton from '@/components/ui/ScrollNextButton/ScrollNextButton.jsx'
 import './HeroSection.css'
@@ -47,6 +48,9 @@ function HeroSection() {
           >
             Solicitar presupuesto
           </a>
+          <Link to="/promociones/cambio-aceite" className="btn-secondary">
+            Ver Promociones Activas
+          </Link>
         </div>
 
         <ul className="home-hero-badges">

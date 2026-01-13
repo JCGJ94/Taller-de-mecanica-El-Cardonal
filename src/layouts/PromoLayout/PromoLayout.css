@@ -1,0 +1,10 @@
+
+.app-shell {
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.app-main {
+  width: 100%;
+}

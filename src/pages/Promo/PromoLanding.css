@@ -1,0 +1,164 @@
+.promo-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.promo-hero {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.promo-title {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.promo-price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--accent-green);
+  margin: 0.25rem 0 0.75rem;
+}
+
+.promo-bullets {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.1rem;
+  color: var(--text-main);
+}
+
+.promo-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.promo-list {
+  margin: 0.5rem 0;
+  padding-left: 1.1rem;
+  color: var(--text-main);
+}
+
+.promo-note {
+  margin-top: 0.8rem;
+  color: var(--text-muted);
+}
+
+.promo-2col {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.75rem;
+}
+.locationsH3{
+  margin-top: 2rem !important;
+}
+
+@media (min-width: 800px) {
+  .promo-2col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.promo-box {
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid var(--border-soft);
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+.promo-grid {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 800px) {
+  .promo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.promo-card {
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid var(--border-soft);
+  border-radius: 0.9rem;
+  padding: 1rem;
+}
+
+.promo-offer {
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.promo-badge {
+  color: var(--accent-red-soft);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.promo-urgency {
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+}
+
+.promo-testimonials {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 800px) {
+  .promo-testimonials {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.promo-stars {
+  margin-bottom: 0.35rem;
+}
+
+.promo-faq {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.promo-faq-item {
+  border: 1px solid var(--border-soft);
+  border-radius: 0.9rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(2, 6, 23, 0.4);
+}
+
+.promo-faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.promo-micro {
+  margin-top: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.promo-final {
+  margin-top: 2rem;
+}
+
+.promo-sticky-wa {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  justify-content: center;
+  z-index: 999;
+}
+
+@media (min-width: 640px) {
+  .promo-sticky-wa {
+    left: auto;
+    width: 220px;
+    right: 16px;
+  }
+}
