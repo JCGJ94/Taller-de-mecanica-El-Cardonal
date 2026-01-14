@@ -6,8 +6,8 @@ import SEO from '@/components/common/SEO/SEO.jsx'
 import StructuredData from '@/components/seo/StructuredData/StructuredData.jsx'
 import Toast from '@/components/ui/Toast/Toast.jsx'
 import { PROMOTIONS } from '@/utils/promotionsData'
+import { fetchGoogleReviews } from '@/services/googlePlacesService'
 
-import { usePageTracking } from '@/hooks/usePageTracking'
 import './PromoLanding.css'
 
 function buildWhatsAppLink({ whatsapp, whatsappPrefill }) {
@@ -27,15 +27,56 @@ export default function PromoLanding() {
   const promo = useMemo(() => PROMOTIONS.find((p) => p.slug === slug), [slug])
 
   const [showToast, setShowToast] = useState(false)
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [reviews, setReviews] = useState([])
+  const [reviewsLoading, setReviewsLoading] = useState(true)
 
   useEffect(() => {
     window.scrollTo(0, 0)
     setShowToast(true)
+    const timer = setTimeout(() => setShowToast(false), 5000)
+    return () => clearTimeout(timer)
   }, [slug])
 
-  usePageTracking?.(`promo_${slug}`)
+  useEffect(() => {
+    const targetDate = new Date('2026-02-01T00:00:00')
 
-  if (!promo) return <Navigate to="/404" replace />
+    const updateCountdown = () => {
+      const now = new Date()
+      const difference = targetDate - now
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+        setTimeLeft({ days, hours, minutes, seconds })
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+      }
+    }
+
+    updateCountdown()
+    const interval = setInterval(updateCountdown, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (!promo) return
+    const loadReviews = async () => {
+      const googleReviews = await fetchGoogleReviews()
+      setReviews(googleReviews.length > 0 ? googleReviews : promo.testimonials.items)
+      setReviewsLoading(false)
+    }
+    loadReviews()
+  }, [promo])
+
+  const targetDate = new Date('2026-02-01T00:00:00')
+  const now = new Date()
+  const isExpired = now >= targetDate
+
+  if (!promo || isExpired) return <Navigate to="/404" replace />
 
   const waLink = buildWhatsAppLink(promo.contact)
   const telLink = buildTelLink(promo.contact.phone)
@@ -57,6 +98,31 @@ export default function PromoLanding() {
           description: promo.seoDescription,
         }}
       />
+
+      {/* Contador flotante */}
+      <div className="promo-countdown">
+        <div className="countdown-container">
+          <span className="countdown-label">¡Promoción termina en!</span>
+          <div className="countdown-timer">
+            <div className="time-unit">
+              <span className="time-value">{timeLeft.days}</span>
+              <span className="time-label">Días</span>
+            </div>
+            <div className="time-unit">
+              <span className="time-value">{timeLeft.hours}</span>
+              <span className="time-label">Horas</span>
+            </div>
+            <div className="time-unit">
+              <span className="time-value">{timeLeft.minutes}</span>
+              <span className="time-label">Min</span>
+            </div>
+            <div className="time-unit">
+              <span className="time-value">{timeLeft.seconds}</span>
+              <span className="time-label">Seg</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <main className="promo-page">
         {/* HERO */}
@@ -170,12 +236,23 @@ export default function PromoLanding() {
         <section className="section-card">
           <h2>{promo.testimonials.title}</h2>
           <div className="promo-testimonials">
-            {promo.testimonials.items.map((t, i) => (
-              <div key={i} className="promo-card">
-                <div className="promo-stars">{'⭐'.repeat(t.stars)}</div>
-                <p>{t.text}</p>
-              </div>
-            ))}
+            {reviewsLoading ? (
+              <p>Cargando opiniones...</p>
+            ) : reviews.length > 0 ? (
+              <>
+                <div className="testimonials-grid">
+                  {reviews.map((t, i) => (
+                    <div key={i} className="promo-card">
+                      <div className="promo-stars">{'⭐'.repeat(Number(t.stars) || 0)}</div>
+                      <p className="review-text">{t.text}</p>
+                      <p className="review-author">- {t.author_name}</p>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>No hay opiniones disponibles.</p>
+            )}
           </div>
         </section>
 
@@ -196,12 +273,12 @@ export default function PromoLanding() {
         <section className="section-card" id="ubicacion">
           <h2>{promo.location.title}</h2>
           <a
-            href="https://maps.app.goo.gl/EuRMqU3HzCmHWwx27"
+            href="https://maps.app.goo.gl/uK4TozMcRhQirSwB9"
             target="_blank"
             rel="noopener noreferrer"
             className="location-btn fade-in delay-4"
           >
-          <p>📍 Estamos en: {promo.location.addressLine1}</p>
+            <p>📍 Estamos en: {promo.location.addressLine1}</p>
           </a>
           <h3 className='locationsH3'>🕒 Horario</h3>
           <ul className="promo-list">

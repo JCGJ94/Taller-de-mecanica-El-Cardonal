@@ -1,7 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import HeroCarousel from '@/components/ui/HeroCarousel/HeroCarousel.jsx'
 import ScrollNextButton from '@/components/ui/ScrollNextButton/ScrollNextButton.jsx'
+import Toast from '@/components/ui/Toast/Toast.jsx'
 import './HeroSection.css'
 
 const WHATSAPP_NUMBER = '34685562049'
@@ -10,6 +11,23 @@ const PRESUPUESTO_TEXT = encodeURIComponent(
 )
 
 function HeroSection() {
+  const [showToast, setShowToast] = useState(false)
+  const navigate = useNavigate()
+
+  const targetDate = new Date('2026-02-01T00:00:00')
+  const now = new Date()
+  const isExpired = now >= targetDate
+
+  const handlePromotionsClick = (e) => {
+    if (isExpired) {
+      e.preventDefault()
+      setShowToast(true)
+      setTimeout(() => setShowToast(false), 5000)
+    } else {
+      navigate('/promociones/cambio-aceite')
+    }
+  }
+
   return (
     <section id="hero" className="home-hero">
       <HeroCarousel />
@@ -48,7 +66,7 @@ function HeroSection() {
           >
             Solicitar presupuesto
           </a>
-          <Link to="/promociones/cambio-aceite" className="btn-secondary">
+          <Link to="/promociones/cambio-aceite" className="btn-secondary" onClick={handlePromotionsClick}>
             Ver Promociones Activas
           </Link>
         </div>
@@ -61,6 +79,14 @@ function HeroSection() {
 
         <ScrollNextButton targetId="services" />
       </div>
+
+      {showToast && (
+        <Toast
+          message="No hay promociones disponibles"
+          type="info"
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </section>
   )
 }
