@@ -9,6 +9,7 @@ import { PROMOTIONS } from '@/utils/promotionsData'
 import { fetchGoogleReviews } from '@/services/googlePlacesService'
 
 import './PromoLanding.css'
+import LocationSection from '../../components/home/LocationSection/LocationSection'
 
 function buildWhatsAppLink({ whatsapp, whatsappPrefill }) {
   const num = String(whatsapp || '').replace(/\D/g, '')
@@ -136,10 +137,25 @@ export default function PromoLanding() {
       <main className="promo-page">
         {/* HERO */}
         <section className="section-card promo-hero">
+          {/* Badge superior estilo campaña */}
+          <div className="promo-badge-top">⚡ Promo exclusiva · Plazas limitadas</div>
+
           <h1 className="promo-title">{promo.hero.headline}</h1>
-          <p className="promo-price">{promo.hero.price}</p>
+
+          <p className="promo-price">
+            {promo.hero.price}
+          </p>
+
           <p className="section-subtitle">{promo.hero.subheadline}</p>
 
+          {/* Chips de confianza / conversión */}
+          <div className="promo-chips">
+            <span className="promo-chip">🛡 Garantía incluida</span>
+            <span className="promo-chip">⏱ 30–45 min</span>
+            <span className="promo-chip">💬 WhatsApp directo</span>
+          </div>
+
+          {/* Bullets como cards */}
           <ul className="promo-bullets">
             {promo.hero.bullets.map((b) => (
               <li key={b}>{b}</li>
@@ -155,6 +171,7 @@ export default function PromoLanding() {
             </a>
           </div>
         </section>
+
 
         {/* SECCIÓN 2 */}
         <section className="section-card">
@@ -315,25 +332,7 @@ export default function PromoLanding() {
 
         {/* SECCIÓN 9 */}
         <section className="section-card" id="ubicacion">
-          <h2>{promo.location.title}</h2>
-
-          <a
-            href="https://maps.app.goo.gl/uK4TozMcRhQirSwB9"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="location-btn fade-in delay-4"
-          >
-            <p>📍 Estamos en: {promo.location.addressLine1}</p>
-          </a>
-
-          <h3 className="locationsH3">🕒 Horario</h3>
-          <ul className="promo-list">
-            {promo.location.hours.map((h) => (
-              <li key={h}>{h}</li>
-            ))}
-          </ul>
-
-          <p>📲 WhatsApp / Teléfono: {promo.contact.phone}</p>
+          <LocationSection />
         </section>
 
         {/* SECCIÓN 10 */}
