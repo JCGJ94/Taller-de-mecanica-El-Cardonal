@@ -26,8 +26,11 @@ export default async function handler(req, res) {
       text: x.text,
       author_name: x.author_name,
     }))
-    
-    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400");
+    .filter(r => r.stars >= 4)
+    .slice(0, 8)
+
+   /*  res.setHeader("Cache-Control", "no-store"); */
+    res.setHeader("Cache-Control", "s-maxage=3600, stale-while-revalidate=86400"); 
     return res.status(200).json(reviews);
   } catch (e) {
     return res.status(500).json({ error: "Server error", details: String(e) });
