@@ -1,4 +1,4 @@
-
+// src/pages/Promo/PromoLanding.jsx
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, Navigate } from 'react-router-dom'
 
@@ -21,15 +21,24 @@ function buildTelLink(phone) {
   return phone ? `tel:${cleaned}` : '#'
 }
 
+function truncate(text, max = 220) {
+  const t = String(text || '').trim()
+  if (t.length <= max) return { short: t, isLong: false }
+  return { short: t.slice(0, max).trimEnd() + '…', isLong: true }
+}
+
 export default function PromoLanding() {
   const { slug } = useParams()
-
   const promo = useMemo(() => PROMOTIONS.find((p) => p.slug === slug), [slug])
 
   const [showToast, setShowToast] = useState(false)
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
   const [reviews, setReviews] = useState([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
+  const [expanded, setExpanded] = useState({})
+
+  const toggleExpanded = (i) => setExpanded((prev) => ({ ...prev, [i]: !prev[i] }))
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -43,13 +52,13 @@ export default function PromoLanding() {
 
     const updateCountdown = () => {
       const now = new Date()
-      const difference = targetDate - now
+      const diff = targetDate - now
 
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000)
         setTimeLeft({ days, hours, minutes, seconds })
       } else {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
@@ -58,23 +67,24 @@ export default function PromoLanding() {
 
     updateCountdown()
     const interval = setInterval(updateCountdown, 1000)
-
     return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
     if (!promo) return
+
     const loadReviews = async () => {
       const googleReviews = await fetchGoogleReviews()
+      // ✅ filtrado lo haces en backend. Aquí solo fallback.
       setReviews(googleReviews.length > 0 ? googleReviews : promo.testimonials.items)
       setReviewsLoading(false)
     }
+
     loadReviews()
   }, [promo])
 
   const targetDate = new Date('2026-02-01T00:00:00')
-  const now = new Date()
-  const isExpired = now >= targetDate
+  const isExpired = new Date() >= targetDate
 
   if (!promo || isExpired) return <Navigate to="/404" replace />
 
@@ -90,7 +100,6 @@ export default function PromoLanding() {
         keywords="cambio de aceite, taller mecánico, mantenimiento coche, aceite y filtro"
       />
 
-      {/* Schema básico tipo Service */}
       <StructuredData
         type="Service"
         data={{
@@ -235,21 +244,56 @@ export default function PromoLanding() {
         {/* SECCIÓN 7 */}
         <section className="section-card">
           <h2>{promo.testimonials.title}</h2>
+
           <div className="promo-testimonials">
             {reviewsLoading ? (
               <p>Cargando opiniones...</p>
             ) : reviews.length > 0 ? (
-              <>
-                <div className="testimonials-grid">
-                  {reviews.map((t, i) => (
-                    <div key={i} className="promo-card">
-                      <div className="promo-stars">{'⭐'.repeat(Number(t.stars) || 0)}</div>
-                      <p className="review-text">{t.text}</p>
-                      <p className="review-author">- {t.author_name}</p>
-                    </div>
-                  ))}
-                </div>
-              </>
+              <div className="testimonials-grid">
+                {reviews.slice(0, 8).map((t, i) => {
+                  const author = t.author_name || 'Cliente'
+                  const stars = Number(t.stars) || 0
+                  const { short, isLong } = truncate(t.text, 220)
+                  const isExpanded = !!expanded[i]
+
+                  return (
+                    <article key={i} className="review-card">
+                      <header className="review-head">
+                        <div className="review-avatar" aria-hidden="true">
+                          {author.charAt(0).toUpperCase()}
+                        </div>
+
+                        <div className="review-meta">
+                          <div className="review-author-row">
+                            <p className="review-author-name">{author}</p>
+
+                            <div className="review-stars" aria-label={`${stars} estrellas`}>
+                              {'★'.repeat(stars)}
+                              {'☆'.repeat(Math.max(0, 5 - stars))}
+                            </div>
+                          </div>
+
+                          <p className="review-source">Opinión de Google</p>
+                        </div>
+                      </header>
+
+                      <p className={`review-body ${isExpanded ? 'expanded' : ''}`}>
+                        {isExpanded ? String(t.text || '') : short}
+                      </p>
+
+                      {isLong && (
+                        <button
+                          type="button"
+                          className="review-more"
+                          onClick={() => toggleExpanded(i)}
+                        >
+                          {isExpanded ? 'Ver menos' : 'Leer más'}
+                        </button>
+                      )}
+                    </article>
+                  )
+                })}
+              </div>
             ) : (
               <p>No hay opiniones disponibles.</p>
             )}
@@ -272,6 +316,7 @@ export default function PromoLanding() {
         {/* SECCIÓN 9 */}
         <section className="section-card" id="ubicacion">
           <h2>{promo.location.title}</h2>
+
           <a
             href="https://maps.app.goo.gl/uK4TozMcRhQirSwB9"
             target="_blank"
@@ -280,7 +325,8 @@ export default function PromoLanding() {
           >
             <p>📍 Estamos en: {promo.location.addressLine1}</p>
           </a>
-          <h3 className='locationsH3'>🕒 Horario</h3>
+
+          <h3 className="locationsH3">🕒 Horario</h3>
           <ul className="promo-list">
             {promo.location.hours.map((h) => (
               <li key={h}>{h}</li>
