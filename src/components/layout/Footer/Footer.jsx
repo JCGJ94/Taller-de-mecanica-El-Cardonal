@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Footer.css'
+import { openCookiePreferences } from "@/config/cookieConsent";
 
 function Footer() {
   const scrollToBudget = (e) => {
@@ -92,6 +93,21 @@ function Footer() {
         <p className="footer-tagline">
           🚗 Tu taller de confianza · 💪 Calidad garantizada · ⚙️ Servicio experto
         </p>
+      </div>
+
+      <div className="footer-legal">
+        <button
+          type="button"
+          className="footer-link footer-button-link"
+          onClick={openCookiePreferences}
+        >
+          Cambiar cookies
+        </button>
+
+        <span className="footer-sep">·</span>
+        <Link to="/cookies" className="footer-link">Política de cookies</Link>
+        <span className="footer-sep">·</span>
+        <Link to="/privacidad" className="footer-link">Privacidad</Link>
       </div>
     </footer>
   )

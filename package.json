@@ -17,7 +17,8 @@
     "react-ga4": "^2.1.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "^7.9.6",
+    "vanilla-cookieconsent": "^3.1.0"
   },
   "overrides": {
     "react-helmet-async": {

@@ -7,6 +7,8 @@ import ServiceDetailPage from '@/pages/services/ServiceDetailPage/ServiceDetailP
 import NotFoundPage from '@/pages/common/NotFoundPage/NotFoundPage.jsx'
 import PromoLanding from './pages/Promo/PromoLanding'
 import PromoLayout from './layouts/PromoLayout/PromoLayout'
+import CookiesPage from '@/pages/legal/Cookies/CookiesPage.jsx'
+import PrivacyPage from '@/pages/legal/Privacy/PrivacyPage.jsx'
 
 export function AppRouter() {
   return (
@@ -15,6 +17,10 @@ export function AppRouter() {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="servicios/:serviceId" element={<ServiceDetailPage />} />
+
+        <Route path="cookies" element={<CookiesPage />} />
+        <Route path="privacidad" element={<PrivacyPage />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Route>
       <Route path="/promociones" element={<PromoLayout />}>

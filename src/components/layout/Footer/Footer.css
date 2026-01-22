@@ -176,3 +176,23 @@
     transform: translateX(3px);
     display: inline-block;
 }
+.footer-legal {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-button-link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.footer-sep {
+  opacity: 0.6;
+}
