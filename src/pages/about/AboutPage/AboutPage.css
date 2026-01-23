@@ -6,94 +6,207 @@
     margin-left: -50vw;
     margin-right: -50vw;
 }
+
+/* Fondo: misma imagen + overlay pro + pattern industrial */
 .about-page {
-    background: 
-      linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.80)),
-      url('/hero-3.png');
+    position: relative;
+    background:
+        /* glow suave marca */
+        radial-gradient(900px 520px at 18% 12%, rgba(34, 197, 94, 0.12), transparent 55%),
+        radial-gradient(900px 520px at 82% 0%, rgba(148, 163, 184, 0.10), transparent 50%),
+        /* overlay oscuro */
+        linear-gradient(to bottom, rgba(2, 6, 23, 0.94), rgba(2, 6, 23, 0.78)),
+        url("/hero-3.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+
+    padding: 5rem 1.5rem;
 }
 
+/* Pattern industrial encima del fondo (muy sutil) */
+.about-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    background:
+        /* rejilla */
+        linear-gradient(rgba(148, 163, 184, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.10) 1px, transparent 1px),
+        /* diagonales */
+        repeating-linear-gradient(135deg,
+            rgba(34, 197, 94, 0.08) 0px,
+            rgba(34, 197, 94, 0.08) 1px,
+            transparent 1px,
+            transparent 14px);
+    background-size: 46px 46px, 46px 46px, 220px 220px;
+}
 
-/* Contenedor principal */
+/* Viñeta suave para profundidad */
+.about-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 45%, rgba(0, 0, 0, 0.38) 100%);
+}
+
+/* Una sola card */
 .about-container {
-    max-width: 900px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 980px;
     margin: 0 auto;
-    animation: fadeIn 0.8s ease-out;
+
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 1.25rem;
+    padding: clamp(22px, 3vw, 44px);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.50);
+
+    animation: fadeIn 0.7s ease-out both;
+
+    /* detalle industrial: borde superior de acento */
+    overflow: hidden;
 }
 
-/* Título principal */
+.about-container--single::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* banda superior */
+    background:
+        linear-gradient(90deg, rgba(34, 197, 94, 0.0), rgba(34, 197, 94, 0.18), rgba(34, 197, 94, 0.0));
+    height: 4px;
+    top: 0;
+}
+
+/* Header */
+.about-header {
+    text-align: center;
+    margin-bottom: 1.6rem;
+}
+
+.about-eyebrow {
+    margin: 0 0 0.75rem 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
 .about-title {
-    font-size: 2.7rem;
-    font-weight: 800;
-    margin-bottom: 2.5rem;
+    font-size: clamp(2.05rem, 3vw, 2.8rem);
+    font-weight: 900;
+    margin: 0 0 1rem 0;
     background: linear-gradient(135deg, #ffffff 0%, #cbd5f5 40%, #94a3b8 100%);
+    -webkit-background-clip: text;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.03em;
 }
 
-/* Texto hero */
-.about-hero-text {
-    font-size: 1.4rem;
-    line-height: 1.8;
-    color: var(--text-main);
-    font-weight: 500;
-    margin-bottom: 2rem;
-    text-wrap: balance;
+.about-divider {
+    width: 92px;
+    height: 3px;
+    margin: 0 auto;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+    opacity: 0.95;
 }
 
-/* Palabras destacadas */
-.about-highlight {
-    color: var(--accent-green);
-    font-weight: 700;
-}
-
-/* Bloque del equipo */
-.about-team-section {
-    margin-top: 3.5rem;
-    padding: 2.5rem 2rem;
-    background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.1), transparent 60%),
-                rgba(15, 23, 42, 0.75);
-    border: 1px solid var(--border-soft);
-    border-radius: 1.25rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+/* Contenido */
+.about-content {
     text-align: left;
 }
 
-/* Título sección equipo */
+.about-hero-text {
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: rgba(229, 231, 235, 0.92);
+    font-weight: 500;
+    margin: 0 0 1.25rem 0;
+    max-width: 82ch;
+}
+
+.about-highlight {
+    color: var(--accent-green);
+    font-weight: 750;
+}
+
+/* Separador entre secciones dentro de la misma card */
+.about-separator {
+    margin: 1.8rem 0 1.6rem 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(148, 163, 184, 0.22),
+            transparent);
+}
+
+/* Equipo */
 .about-team-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.2rem;
-    color: #ffffff;
+    justify-self: center !important;
+    font-size: clamp(2.05rem, 3vw, 2.8rem);
     font-weight: 900;
-    place-self: center;
+    margin: 0 0 0.9rem 0;
+    color: rgba(229, 231, 235, 0.96);
+    font-weight: 900;
+    letter-spacing: -0.02em;
 }
 
-/* Descripción equipo */
-.about-team-desc {
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
+/* Badges de valores */
+.about-badges {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
 }
 
-/* Animación suave de entrada */
+.about-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+
+    background: rgba(2, 8, 31, 0.60);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    color: rgba(229, 231, 235, 0.86);
+    font-size: 1rem;
+
+    transition: transform 0.08s ease-out, border-color 0.12s ease-out, background 0.12s ease-out;
+}
+
+.about-badge:hover {
+    transform: translateY(-1px);
+    border-color: rgba(34, 197, 94, 0.28);
+    background: rgba(2, 8, 31, 0.78);
+}
+
+/* Animación */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(12px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -101,51 +214,21 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-    .about-page {
-        padding: 3.5rem 1.5rem;
-    }
-
-    .about-title {
-        font-size: 2.3rem;
-    }
-
-    .about-hero-text {
-        font-size: 1.25rem;
-    }
-
-    .about-team-section {
-        padding: 2rem 1.5rem;
-    }
-}
-
 @media (max-width: 768px) {
     .about-page {
-        padding: 3rem 1.25rem;
-        background-attachment: scroll; /* mejor rendimiento en móviles */
+        padding: 3.25rem 1.1rem;
+        background-attachment: scroll;
     }
 
-    .about-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
-    }
-
-    .about-hero-text {
-        font-size: 1.1rem;
-        margin-bottom: 1.75rem;
-    }
-
-    .about-team-section {
-        margin-top: 3rem;
-        padding: 1.75rem 1.25rem;
-        text-align: left;
+    .about-container {
+        padding: 18px;
     }
 
     .about-team-title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
     }
 
     .about-team-desc {
-        font-size: 1rem;
+        font-size: 0.98rem;
     }
 }
